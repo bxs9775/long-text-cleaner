@@ -30,7 +30,7 @@ class LongTextReader{
         cleaned_text = cleaned_text.replace(/\s+/gi," ");
 
         // save cleaned text
-        this.text['cleaned'] = cleaned_text+"\n";
+        this.text['cleaned'] = cleaned_text;
         
         return this.text['cleaned'];
     }
@@ -51,7 +51,7 @@ class LongTextReader{
 
     getReport(){
         return {
-            text: this.text['cleaned'],
+            text: this.text['cleaned']+"\n",
             onegram_list: this.onegram_list,
             onegram_dict: this.onegram_dict
         }

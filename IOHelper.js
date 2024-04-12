@@ -14,6 +14,11 @@ class IOHelper{
         }
     }
 
+    loadJson(filepath){
+        let text = this.loadFile(filepath);
+        return JSON.parse(text);
+    }
+
     saveResults(report){
         //console.log(report);
         let folderPath = `.\\results\\${this.folderName}`
@@ -30,6 +35,24 @@ class IOHelper{
         .join('\n');
 
         fs.writeFileSync(`${folderPath}\\${this.folderName}_1grams.txt`,gramCounts)
+    }
+
+    saveJsonResults(report){
+        let folderPath = `.\\results\\${this.folderName}`
+        if (!fs.existsSync(folderPath)) {
+            fs.mkdirSync(folderPath);
+        }
+
+        fs.writeFileSync(`${folderPath}\\${this.folderName}_cleaned.json`,JSON.stringify(report.text))
+        
+        let gramCounts = {}
+        for(let entry of Object.entries(report.onegram_dict)){
+            let [key, grams] = entry;
+            gramCounts[key] = Object.entries(grams)
+            .sort((a,b) => b[1] - a[1])
+        }
+
+        fs.writeFileSync(`${folderPath}\\${this.folderName}_1grams.json`,JSON.stringify(gramCounts))
     }
 }
 
